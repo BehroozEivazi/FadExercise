@@ -21,8 +21,6 @@ while (True):
     width = frame.shape[0]
     height = frame.shape[1]
     mask = cv.resize(mask, (height, width), interpolation=cv.INTER_AREA)
-    print('frame shpae is {}'.format(frame.shape))
-    print('mask shpae is {}'.format(mask.shape))
     # result = cv.bitwise_and(frame, mask)
     # top line for base image gray scale
     result = cv.bitwise_and(frame,frame, mask=mask)
