@@ -2,7 +2,7 @@ import numpy as np
 import cv2 as cv
 from matplotlib import pyplot as plt
 
-img = cv.imread(r"C:\Users\Mhsafavian\Desktop\Amoozeshgah\Lake.jpg",1)
+img = cv.imread(r"./img.jpeg",1)
 cv.imshow("source image", img)
 
 f_size = 5
