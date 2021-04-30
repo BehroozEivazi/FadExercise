@@ -1,3 +1,5 @@
+import datetime
+
 import keras as keras
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, BatchNormalization
 from keras_preprocessing.image import ImageDataGenerator
@@ -8,11 +10,12 @@ import cv2 as cv
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 org_path = 'D:/dataset/cvd/training_set/training_set/'
 labels = []
 images = []
-EPOCHS = 2
+EPOCHS = 5
 IMGSIZE = 128
 BATCH_SIZE = 32
 STOPPING_PATIENCE = 15
@@ -81,9 +84,13 @@ train_gen = train_datagen.flow(X_train, Y_train, batch_size=BATCH_SIZE)
 test_datagen = ImageDataGenerator(rescale=1. / 255)
 test_gen = train_datagen.flow(X_test, Y_test, batch_size=BATCH_SIZE)
 
+log_dir = "./logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callbacks = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
 model = createModel()
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-history = model.fit(X_train, Y_train, epochs=EPOCHS, batch_size=BATCH_SIZE, validation_split=1 / 3)
-model.save_weights("CATSvsDOGS_model.h5")
+# mamoolan hangam fit mirizan dakhele ye moteghaeyer haminjoori velesh nemikonim
+history = model.fit(X_train, Y_train, epochs=EPOCHS, batch_size=BATCH_SIZE, validation_split=1 / 3,
+                    callbacks=[tensorboard_callbacks])
 model.save('CNN_CAT.model')
 train_acc = model.evaluate(X_test, Y_test, batch_size=BATCH_SIZE)
